@@ -76,7 +76,7 @@ class Validation
         'name'    => [
             'rules'  => 'required|max_length[10]',
             'errors' => [
-                'required'=>'請輸入密碼',
+                'required'=>'請輸入名字',
                 'max_length'=>'不能超過10個字'
             ],
         ],
