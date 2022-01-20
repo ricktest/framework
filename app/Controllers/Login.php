@@ -17,24 +17,34 @@ class Login extends BaseController
         $data=$request->getPost();
         $method = $request->getMethod();
         if($method=='post'){
-            
             $validation->run($data, 'signup');
             if($validation->listErrors()==''){
                 $query = $db->query('SELECT * FROM `users` WHERE `acount`='.$db->escape($data['acount']).' AND `pwd`= '.$db->escape($data['pwd']));
                 $row   = $query->getRowArray();
                 $session->set($row);
-                echo '<script>alert("登入成功");document.location.href="./";</script>';
+                $data=[
+                    'sus'=>[
+                        'msg'=>'登入成功',
+                        'link'=>'./',
+                    ],
+                ];
+                return json_encode($data);
+                //echo '<script>alert("登入成功");document.location.href="./";</script>';
+            }else{
+                $data=[
+                    'erreo'=>[
+                        'acount' => $validation->getError('acount'),
+                        'pwd'=>$validation->getError('pwd')
+                    ],
+                ];
+                return json_encode($data);
             }
+        }else{
+            $data=[
+                'title'=>'login'
+            ];
+            echo view('login',$data);
         }
-        //$session->destroy();
-        //var_dump($_SESSION);
-        $data=[
-            'validation' => $validation,
-            'title'=>'login'
-        ];
-
-        echo view('login',$data);
-
     }
     public function logout(){
         $session = \Config\Services::session($config);

@@ -23,21 +23,45 @@ class register extends BaseController
                 //$data['as']=1;
                 $db->table('users')->insert($data);
                 if($db->affectedRows()==1){
-                    echo '<script>alert("註冊成功");document.location.href="./login";</script>';
+                    $data=[
+                        'sus'=>[
+                            'msg'=>'註冊成功',
+                            'link'=>'./login',
+                        ],
+                    ];
+                    return json_encode($data);
+                    //echo '<script>alert("註冊成功");document.location.href="./login";</script>';
                 }else{
-                    echo '<script>alert("註冊失敗");document.location.href="./register";</script>';
+                    $data=[
+                        'sus'=>[
+                            'msg'=>'註冊失敗',
+                            'link'=>'./register',
+                        ],
+                    ];
+                    return json_encode($data);
+                   // echo '<script>alert("註冊失敗");document.location.href="./register";</script>';
                 }
                 
+            }else{
+                $data=[
+                    'erreo'=>[
+                        'name'=>$validation->getError('name'),
+                        'acount' => $validation->getError('acount'),
+                        'pwd'=>$validation->getError('pwd')
+                    ],
+                ];
+                return json_encode($data);
             }
             
+        }else{
+            $data=[
+                'name'=>$data['name'],
+                'acount'=>$data['acount'],
+            ];
+            echo view('register',$data);
         }
-        $data=[
-            'validation' => $validation,
-            'name'=>$data['name'],
-            'acount'=>$data['acount'],
-        ];
-        //var_dump($validation->listErrors());
-        echo view('register',$data);
+      
+      
 
     }
 

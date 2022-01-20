@@ -23,6 +23,9 @@
             
             }
         </style>
+        <script src="<?=base_url('/js/jquery-3.6.0.js')?>"></script>
+        
+      
     </head>
     <body>
     <div class="content">
