@@ -21,8 +21,11 @@ class register extends BaseController
 
             if($validation->listErrors()==''){
                 //$data['as']=1;
-                $db->table('users')->insert($data);
-                if($db->affectedRows()==1){
+                //$db->table('users')->insert($data);
+                $userModel = new \App\Models\UserModel();
+                
+                //var_dump($test);
+               if($userModel->insert($data)){
                     $data=[
                         'sus'=>[
                             'msg'=>'註冊成功',

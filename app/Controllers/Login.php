@@ -19,9 +19,15 @@ class Login extends BaseController
         if($method=='post'){
             $validation->run($data, 'signup');
             if($validation->listErrors()==''){
-                $query = $db->query('SELECT * FROM `users` WHERE `acount`='.$db->escape($data['acount']).' AND `pwd`= '.$db->escape($data['pwd']));
-                $row   = $query->getRowArray();
-                $session->set($row);
+                //$query = $db->query('SELECT * FROM `users` WHERE `acount`='.$db->escape($data['acount']).' AND `pwd`= '.$db->escape($data['pwd']));
+                //$row   = $query->getRowArray();
+                //$session->set($row);
+                $userModel = new \App\Models\UserModel();
+                $users = $userModel->where('acount', $data['acount'])
+                                    ->where('pwd',$data['pwd'])
+                                    ->first();
+                $session->set($users);
+                //var_dump($users);
                 $data=[
                     'sus'=>[
                         'msg'=>'登入成功',
